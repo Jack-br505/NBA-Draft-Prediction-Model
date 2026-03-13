@@ -30,9 +30,8 @@ ncaa['Class_enc'] = ncaa['Class '].map(yr_map)
 
 feature_cols = [
     # your full list of columns here
-      'GP', 'GS', 'FG',
-      'FGA', '2PA', '3PA', 'FT', 'FTA', 'ORB', 
-      'DRB', 'TRB', 'AST', 'STL', 'BLK', 'TOV', 'PTS', 
+      'GP','FGA','ORB', 
+      'DRB', 'STL', 'TOV', 
       'FG%', '2P%', '3P%', 'FT%', 'TS%', 'eFG%', 'POS_enc', 'Class_enc',
       'PPG', 'APG', 'RPG', 'BPG', 'SPG', 'MPG', '3PAr', 'FTr',
 ]
