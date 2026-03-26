@@ -12,15 +12,15 @@ X_test  = test_df.drop(columns=['Drafted'])
 y_test  = test_df['Drafted']
 
 #Scale weight
-scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum()
+scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum() * 1.2 #Changed scale to favor drafted slightly more
 
 #make classifier
 model = xgb.XGBClassifier(
     n_estimators=300, #Best is 300
     max_depth=5, #Best param is 5, originally 4
     learning_rate=0.1, #Best is 0.1, first was .05
-    subsample=0.75, #Best = 0.75, og = 0.8
-    colsample_bytree=0.75, #Best = 0.75, og = 0.8
+    subsample=0.75, #Best = 0.75, original = 0.8
+    colsample_bytree=0.75, #Best = 0.75, original = 0.8
     scale_pos_weight=scale_pos_weight,
     eval_metric='logloss',
     random_state=42,
