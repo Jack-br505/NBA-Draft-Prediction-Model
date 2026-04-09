@@ -32,7 +32,7 @@ feature_cols = [
     # your full list of columns here
       'GP','FGA','ORB', 
       'DRB', 'STL', 'TOV', 
-      'FG%', '2P%', '3P%', 'FT%', 'TS%', 'eFG%', 'POS_enc', 'Class_enc',
+      'FG%', '2P%', '3P%', 'TS%', 'eFG%', 'POS_enc', 'Class_enc',
       'PPG', 'APG', 'RPG', 'BPG', 'SPG', 'MPG', '3PAr', 'FTr',
 ]
 

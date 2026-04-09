@@ -31,7 +31,7 @@ feature_cols = [
     # your full list of columns here
       'GP','FGA','ORB', 
       'DRB', 'STL', 'TOV', 
-      'FG%', '2P%', '3P%', 'FT%', 'TS%', 'eFG%', 'POS_enc', 'Class_enc',
+      'FG%', '2P%', '3P%', 'TS%', 'eFG%', 'POS_enc', 'Class_enc',
       'PPG', 'APG', 'RPG', 'BPG', 'SPG', 'MPG', '3PAr', 'FTr',
 ]
 
@@ -54,11 +54,20 @@ import duckdb
 
 
 con = duckdb.connect(database='curr_season.duckdb')
+con = duckdb.connect(database='curr_season.duckdb')
+
+#Update table if model was changes (currently commented out)
+
+#con.execute("DROP TABLE IF EXISTS curr")
+#con.execute("CREATE TABLE curr AS SELECT * FROM curr")
+#con.close()
+
+
 con.execute("CREATE TABLE IF NOT EXISTS curr AS SELECT * FROM curr")
 con.close()
 
 con = duckdb.connect(database='curr_season.duckdb')
-#result = con.execute("SELECT Player FROM curr ORDER BY Draft_Prob DESC LIMIT 10;").fetchdf()
+result = con.execute("SELECT Player FROM curr ORDER BY Draft_Prob DESC LIMIT 10;").fetchdf()
 result = con.execute("SELECT Player, Draft_Prob FROM curr WHERE Team = 'Michigan State';").fetchdf()
 print(result)
 con.close()
