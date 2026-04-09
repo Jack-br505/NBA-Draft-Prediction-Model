@@ -16,6 +16,7 @@ y_test  = test_df['Drafted']
 
 #Scale weight
 scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum() * 1.2
+print(scale_pos_weight)
 
 #Finding Params
 param_grid = {
@@ -29,6 +30,7 @@ param_grid = {
     'reg_alpha': [0, 0.01, 0.1],
     'reg_lambda': [0, 0.1, 0.5]
 }
+
 
 search = GridSearchCV(
     estimator=xgb.XGBClassifier(
@@ -47,7 +49,7 @@ search = GridSearchCV(
 rand_search = RandomizedSearchCV(
     estimator=xgb.XGBClassifier(
         scale_pos_weight=scale_pos_weight,
-        eval_metric='logloss',
+        eval_metric='auc',
         random_state=67,
     ),
     param_distributions=param_grid,  # Same param_grid as before
@@ -59,22 +61,24 @@ rand_search = RandomizedSearchCV(
     random_state=67
 )
 
+
+
 #This part below is commented out to expedite running the code, uncomment to tune the model
 
 #Fit model
 
-#rand_search.fit(X_train, y_train)
+rand_search.fit(X_train, y_train)
 
 #Print best params
 
-#print("Best params:", rand_search.best_params_)
+print("Best params:", rand_search.best_params_)
 
 #FInd roc auc of best params
 
-#best_model = rand_search.best_estimator_
-#y_pred_best = best_model.predict(X_test)
-#test_roc_auc = roc_auc_score(y_test, y_pred_best)
-#print(f"Test ROC-AUC Score: {test_roc_auc:.4f}")
+best_model = rand_search.best_estimator_
+y_pred_best = best_model.predict(X_test)
+test_roc_auc = roc_auc_score(y_test, y_pred_best)
+print(f"Test ROC-AUC Score: {test_roc_auc:.4f}")
 
 #make classifier
 model = xgb.XGBClassifier(
@@ -84,7 +88,7 @@ model = xgb.XGBClassifier(
     subsample=0.5,  #0.5
     colsample_bytree=0.9, #0.9
     scale_pos_weight=scale_pos_weight,
-    eval_metric='logloss',
+    eval_metric='auc',
     random_state=67,
     gamma = 0, #0.0
     min_child_weight = 7,#7
@@ -94,8 +98,9 @@ model = xgb.XGBClassifier(
 
 
 #Train model
-model.fit(X_train, y_train,)
-
+model.fit(
+    X_train, y_train,
+)
 #Test
 y_pred = model.predict(X_test)
 

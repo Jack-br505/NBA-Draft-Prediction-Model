@@ -25,9 +25,7 @@ model = xgb.XGBClassifier(
     eval_metric='logloss',
     random_state=42,
 )
-
-#Train model
-model.fit(X_train, y_train,)
+model.fit(X_train, y_train)
 
 #Test
 y_pred = model.predict(X_test)
